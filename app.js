@@ -10,10 +10,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const teammates = [];
+const employees = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-function getEmployee() {
+function newEmployee() {
      inquirer.prompt([
         {
             type: "input",
@@ -57,25 +57,44 @@ function getEmployee() {
             name: "github",
             message: "GitHub User:",
             when: (answers) => answers.role === "Engineer"
-        }
+        },
 
-    ])
-    
-    
-    
+    ]).then((answers) => {
+            if (answers.role === "Manager") {
+                const manager = (answers.name, answers.id, answers.email, answers.officeNumber)
+                employees.push(manager);
+            }
+            else if (answers.role === "Intern") {
+                const intern = (answers.name, answers.id, answers.email, answers.school)
+                employees.push(intern);
+            }
+            else if (answers.role === "Engineer") {
+                const engineer = (anwers.name, answers.id, answers.email, answers.github)
+                employees.push(engineer);
+            }
+
+        console.log(answers);
+        addMore();
+
+    })
+ 
 }
 
-    
+function fileCheck() {
+    if (!fs.existsSync(OUTPUT_DIR)) {fs.mkdirSync(OUTPUT_DIR)}
+        fs.writeFileSync(outputPath, render(employees), "utf-8");
+}
 
+function addMore() {
+    inquirer.prompt ({
+        type: "confirm",
+        name: "complete",
+        message: "Do you have more people to enter?"
+    }).then((data) => {data.complete ? newEmployee() : fileCheck()})
+}    
 
+newEmployee();
 
-
-        // {
-        //     type: "confirm",
-        //     name: "complete",
-        //     message: "Do you have more people to enter?"
-        // },
-    
 
 
 // After the user has input all employees desired, call the `render` function (required
@@ -98,4 +117,3 @@ function getEmployee() {
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
-getEmployee();
