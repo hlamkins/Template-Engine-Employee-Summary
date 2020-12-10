@@ -10,11 +10,13 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let employees = [];
 const employees = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 function newEmployee() {
-     inquirer.prompt([
+     inquirer
+     .prompt([
         {
             type: "input",
             name: "name",
@@ -31,13 +33,13 @@ function newEmployee() {
             message: "Employee e-mail:"
         },
         {
-            type: "list",
+            type: "rawlist",
             name: "role",
             message: "Role:",
             choices: [
-                "Manager",
-                "Engineer",
-                "Intern"
+                'Manager',
+                'Engineer',
+                'Intern'
             ]
         },
         {
@@ -59,39 +61,31 @@ function newEmployee() {
             when: (answers) => answers.role === "Engineer"
         },
 
-    ]).then((answers) => {
-            if (answers.role === "Manager") {
-                const manager = (answers.name, answers.id, answers.email, answers.officeNumber)
-                employees.push(manager);
-            }
-            else if (answers.role === "Intern") {
-                const intern = (answers.name, answers.id, answers.email, answers.school)
-                employees.push(intern);
-            }
-            else if (answers.role === "Engineer") {
-                const engineer = (answers.name, answers.id, answers.email, answers.github)
-                employees.push(engineer);
-            }
 
+    ]).then((answers) => {
+        employees.push(answers);
         console.log(answers);
-        addMore();
+        anotherEmployee();
 
     })
  
 }
+
+function anotherEmployee() {
+    inquirer
+    .prompt ({
+        type: "confirm",
+        name: "continue",
+        message: "Do you have more people to enter?"
+    }).then((data) => {data.continue ? newEmployee() : fileCheck()})
+}    
+
 
 function fileCheck() {
     if (!fs.existsSync(OUTPUT_DIR)) {fs.mkdirSync(OUTPUT_DIR)}
         fs.writeFileSync(outputPath, render(employees), "utf-8");
 }
 
-function addMore() {
-    inquirer.prompt ({
-        type: "confirm",
-        name: "complete",
-        message: "Do you have more people to enter?"
-    }).then((data) => {data.complete ? newEmployee() : fileCheck()})
-}    
 
 newEmployee();
 
