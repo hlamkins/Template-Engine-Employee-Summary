@@ -69,7 +69,7 @@ function newEmployee() {
                 employees.push(intern);
             }
             else if (answers.role === "Engineer") {
-                const engineer = (anwers.name, answers.id, answers.email, answers.github)
+                const engineer = (answers.name, answers.id, answers.email, answers.github)
                 employees.push(engineer);
             }
 
