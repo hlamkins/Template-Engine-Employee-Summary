@@ -64,7 +64,7 @@ function newEmployee() {
 
     ]).then((answers) => {
         employees.push(answers);
-        console.log(answers);
+        console.log(employees);
         anotherEmployee();
 
     })
