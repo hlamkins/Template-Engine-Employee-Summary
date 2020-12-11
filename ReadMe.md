@@ -11,7 +11,7 @@ In order to run this program you need to install node by typing node install, in
 ![Tests](assets/tests.png)
 
 ## Link to Video of Working App
-[Video](https://youtu.be/y8a-VLe5Ad4)
+[Video](https://youtu.be/mFS7ZY7hH5o)
 
 ## Project Status
-Current status is having some errors with writing to the html and therefore am unable to change the styling of the page. Still working on this repository.
+This application is functioning but in the future I would like to add some styling to the html page. 
